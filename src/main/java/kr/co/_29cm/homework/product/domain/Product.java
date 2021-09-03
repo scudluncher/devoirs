@@ -8,11 +8,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import kr.co._29cm.homework.product.exception.SoldOutException;
 
 
 @Entity
 @Table(name="PRODUCT")
+@DynamicUpdate
 public class Product {
     
     public Product(){};

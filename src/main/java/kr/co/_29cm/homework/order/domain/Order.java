@@ -16,12 +16,12 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 @Table(name="ORDER_TABLE")
 public class Order extends AbstractAggregateRoot<Order> {
 
-    private static final Long parcelPolicyThreshold = Long.valueOf(50000);
-    private static final Long parcelAddFee = Long.valueOf(2500);
+    private static final Long parcelPolicyThreshold = 50000L;
+    private static final Long parcelAddFee = 2500L;
 
     public Order(List<OrderOption> orderOptions) {
         this.orderOptions = orderOptions;
-        this.totalAmount = Long.valueOf(0);
+        this.totalAmount = 0L;
     }
 
     @Column(name="ID")
@@ -31,6 +31,9 @@ public class Order extends AbstractAggregateRoot<Order> {
 
     @Column(name="TOTAL_AMOUNT")
     private Long totalAmount;
+
+    @Column(name="PAID_AMOUNT")
+    private Long paidAmount;
 
 
     //테이블 생략
@@ -60,16 +63,26 @@ public class Order extends AbstractAggregateRoot<Order> {
     public Long getParcelFee() {
         return this.parcelFee;
     }
+    
+    public Long getPaidAmount() {
+        return paidAmount;
+    }
 
     public void paid() {
+        this.paidAmount = totalAmount + parcelFee;
         registerEvent(new OrderPaidEvent(this));
     }
 
     public void checkParcelFee(){
         if(totalAmount<parcelPolicyThreshold){
             this.parcelFee = parcelAddFee;
+        }else{
+            this.parcelFee = 0L;
         }
     }
 
+    public boolean isParcelFeeFree(){
+        return this.parcelFee == 0L ? true : false;
+    }
 
 }

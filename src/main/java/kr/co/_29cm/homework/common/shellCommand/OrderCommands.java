@@ -33,34 +33,33 @@ public class OrderCommands {
 
 
     @ShellMethod(value = "order process", key="o")
-    public String order(){
-        String productListing = productsListingSvc.getProductsListing();
-        this.console.write(productListing);
+    public void order(){
+        String productListing = productsListingSvc.getProductsListing();  // 상품 정보 조회
+        this.console.write(productListing);  // 상품 정보 display 
 
         try{
-            Order order = orderSvc.prepareOrder();
-            console.write(order.getTotalAmount().toString());
-            console.writeSplitter();
+            Order order = orderSvc.prepareOrder(); // 오더 진행
+            console.writeOrderDetail(order); // 오더 진행 내용 display 
 
 
         }catch(Exception e){
             this.console.write(e.getMessage());
-            return "";
+            return;
         }
         
         
-
         
         
-        return "asdf";
+        
     }
 
  
 
-    @ShellMethod(value ="quit", key = "q")
-    public String quit(){
-        return "quit";
-        //todo 
+    @ShellMethod(value ="exit the shell", key = "q")
+    public void orderQuit(){
+        this.console.write("고객님의 주문 감사합니다.");
+        System.exit(1);
+        
     }
 
  

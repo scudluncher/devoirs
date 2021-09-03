@@ -23,6 +23,10 @@ public class OrderOption {
         this.productDesc = product.getProductDesc();
     }
 
+    public String showSelectedItemInfo(){
+        return this.productDesc + "    -  " + this.demandQty;
+    }
+
     public Long getOptionId() {
         return optionId;
     }

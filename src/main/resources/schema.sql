@@ -12,7 +12,8 @@ CREATE TABLE PRODUCT (
 CREATE TABLE ORDER_TABLE (
 	ID INT PRIMARY KEY,
 	TOTAL_AMOUNT INT,
-	PARCEL_FEE INT
+	PARCEL_FEE INT,
+	PAID_AMOUNT INT
 );
 
 create sequence hibernate_sequence start 1 increment 1

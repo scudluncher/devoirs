@@ -58,7 +58,7 @@ public class Product {
     }
 
     
-    public void sendParcel(Long demandQty){
+    public void decreaseStock(Long demandQty){
         this.stockQty -= demandQty;
         if(stockQty<0){
             throw new SoldOutException("SoldOutException 발생. 주문량이 재고량보다 큽니다.");

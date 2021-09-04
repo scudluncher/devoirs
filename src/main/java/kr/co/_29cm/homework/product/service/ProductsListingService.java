@@ -14,7 +14,6 @@ public class ProductsListingService {
     private final String columnHeader ="상품번호      상품명                  판매가격        재고수";
 
     private final ProductsRepository productsRepo;
-
     public ProductsListingService(ProductsRepository productsRepo){
         this.productsRepo = productsRepo;
     }

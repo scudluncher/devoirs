@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
-
+   
 import kr.co._29cm.homework.order.domain.OrderOption;
 import kr.co._29cm.homework.product.domain.Product;
 import kr.co._29cm.homework.product.exception.SoldOutException;
@@ -21,6 +21,22 @@ public class ProductsValidator {
     public ProductsValidator(ProductsRepository productsRepo){
         this.productsRepo = productsRepo;
     }
+
+    // public void validateOrerOption(OrderOption orderOption) throws WrongProductException, SoldOutException{
+    //     Long productId = orderOption.getProductId();
+
+    //     Product stockProduct = productsRepo.findById(productId).orElseThrow(()->new WrongProductException("잘못된 Product Id 입력됨"));
+    //     validateStockQuantity(stockProduct, orderOption);
+
+    // }
+
+
+    // private void validateStockQuantity(Product stockProduct, OrderOption orderOption){
+    //     if(stockProduct.getStockQty() < orderOption.getDemandQty()){
+    //         throw new SoldOutException("SoldOutException 발생. 주문량이 재고량보다 큽니다.");
+    //     }
+    // }
+
 
 
     public List<OrderOption> validateOrderOption(List<OrderOption> orderOptions) throws WrongProductException, SoldOutException{
@@ -59,15 +75,17 @@ public class ProductsValidator {
 
 
     private boolean validateStockQty(List<OrderOption> orderOptions, List<Product> productsFound){
-        Map<Long,Long> validatorMap = new HashMap<Long,Long>();
+        Map<Long,Long> stockQtyMap = new HashMap<Long,Long>();
+        //재고상황 체크
         productsFound.stream().forEach(product -> 
-                                        validatorMap.put(product.getId(), product.getStockQty()));
+                                        stockQtyMap.put(product.getId(), product.getStockQty()));
+        //재고수량 - 요청수량 체크
         orderOptions.stream().forEach((ordOpt)->
-                                        validatorMap.put(ordOpt.getProductId(),validatorMap.get(ordOpt.getProductId()) - ordOpt.getDemandQty()));
+                                        stockQtyMap.put(ordOpt.getProductId(),stockQtyMap.get(ordOpt.getProductId()) - ordOpt.getDemandQty()));
 
-
-        for(Long key : validatorMap.keySet()){
-            if(validatorMap.get(key)<0){
+        //모자란 경우 false return
+        for(Long key : stockQtyMap.keySet()){
+            if(stockQtyMap.get(key)<0){
                 return false;
             }
         }

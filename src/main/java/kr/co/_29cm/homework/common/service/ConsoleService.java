@@ -88,7 +88,7 @@ public class ConsoleService {
     private String moneyValueWithComma(Long amount){
         DecimalFormat formatter = new DecimalFormat("###,###");
         return formatter.format(amount);
-    }
+    } 
 
 
 

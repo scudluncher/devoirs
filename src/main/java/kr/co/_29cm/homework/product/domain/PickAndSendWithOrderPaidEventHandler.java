@@ -9,21 +9,21 @@ import kr.co._29cm.homework.order.domain.OrderPaidEvent;
 import kr.co._29cm.homework.product.repository.ProductsRepository;
 
 @Component
-public class PickAndSendWithOrderPayedEventHandler {
+public class PickAndSendWithOrderPaidEventHandler {
     private ProductsRepository productsRepo;
 
-    public PickAndSendWithOrderPayedEventHandler(ProductsRepository productsRepo){
+    public PickAndSendWithOrderPaidEventHandler(ProductsRepository productsRepo){
         this.productsRepo = productsRepo;
     }
 
 
     //@Async
     @EventListener
-    @Transactional
+    @Transactional 
     public void handle(OrderPaidEvent event){
         for(PickProduct pickProduct : event.getPickProduct()){
             Product product = productsRepo.findById(pickProduct.getProductId()).get();
-            product.sendParcel(pickProduct.getDemandQty());
+            product.decreaseStock(pickProduct.getDemandQty());
             productsRepo.save(product);
         }
         

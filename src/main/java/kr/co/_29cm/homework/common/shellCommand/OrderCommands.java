@@ -18,18 +18,12 @@ public class OrderCommands {
     private final ProductsListingService productsListingSvc;
     private final ConsoleService console;
     private final OrderService orderSvc;
-    
-
-  
 
     public OrderCommands(ProductsListingService productsListingSvc,  ConsoleService console, OrderService orderSvc){
         this.productsListingSvc = productsListingSvc;
         this.console = console;
         this.orderSvc = orderSvc;
     }
-
-
-
 
 
     @ShellMethod(value = "order process", key="o")
@@ -41,25 +35,17 @@ public class OrderCommands {
             Order order = orderSvc.prepareOrder(); // 오더 진행
             console.writeOrderDetail(order); // 오더 진행 내용 display 
 
-
         }catch(Exception e){
             this.console.write(e.getMessage());
             return;
         }
-        
-        
-        
-        
-        
     }
 
- 
 
     @ShellMethod(value ="exit the shell", key = "q")
     public void orderQuit(){
         this.console.write("고객님의 주문 감사합니다.");
         System.exit(1);
-        
     }
 
  

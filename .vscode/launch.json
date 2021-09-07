@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringConsoleApplication<29cm-homework>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "mainClass": "kr.co._29cm.homework.SpringConsoleApplication",
+            "projectName": "29cm-homework",
+            "args": ""
+        }
+    ]
+}

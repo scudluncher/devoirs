@@ -73,7 +73,7 @@ public class Order extends AbstractAggregateRoot<Order> {
         registerEvent(new OrderPaidEvent(this));
     }
 
-    public void checkParcelFee(){
+    private void checkParcelFee(){
         if(totalAmount<parcelPolicyThreshold){
             this.parcelFee = parcelAddFee;
         }else{

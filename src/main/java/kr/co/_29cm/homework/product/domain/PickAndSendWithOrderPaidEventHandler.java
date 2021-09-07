@@ -22,7 +22,7 @@ public class PickAndSendWithOrderPaidEventHandler {
     @Transactional 
     public void handle(OrderPaidEvent event){
         for(PickProduct pickProduct : event.getPickProduct()){
-            Product product = productsRepo.findById(pickProduct.getProductId()).get();
+            Product product = productsRepo.findByIdWithLock(pickProduct.getProductId());
             product.decreaseStock(pickProduct.getDemandQty());
             productsRepo.save(product);
         }

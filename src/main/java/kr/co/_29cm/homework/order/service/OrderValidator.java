@@ -1,12 +1,13 @@
-package kr.co._29cm.homework.product.service;
+package kr.co._29cm.homework.order.service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-   
+
 import kr.co._29cm.homework.order.domain.OrderOption;
 import kr.co._29cm.homework.product.domain.Product;
 import kr.co._29cm.homework.product.exception.SoldOutException;
@@ -14,28 +15,15 @@ import kr.co._29cm.homework.product.exception.WrongProductException;
 import kr.co._29cm.homework.product.repository.ProductsRepository;
 
 @Component
-public class ProductsValidator {
+public class OrderValidator {
     
 
     private final ProductsRepository productsRepo;
-    public ProductsValidator(ProductsRepository productsRepo){
+    @Autowired
+    public OrderValidator(ProductsRepository productsRepo){
         this.productsRepo = productsRepo;
     }
 
-    // public void validateOrerOption(OrderOption orderOption) throws WrongProductException, SoldOutException{
-    //     Long productId = orderOption.getProductId();
-
-    //     Product stockProduct = productsRepo.findById(productId).orElseThrow(()->new WrongProductException("잘못된 Product Id 입력됨"));
-    //     validateStockQuantity(stockProduct, orderOption);
-
-    // }
-
-
-    // private void validateStockQuantity(Product stockProduct, OrderOption orderOption){
-    //     if(stockProduct.getStockQty() < orderOption.getDemandQty()){
-    //         throw new SoldOutException("SoldOutException 발생. 주문량이 재고량보다 큽니다.");
-    //     }
-    // }
 
 
 
@@ -52,12 +40,20 @@ public class ProductsValidator {
             throw new SoldOutException("SoldOutException 발생. 주문량이 재고량보다 큽니다.");
         }
 
-        Map<Long, Product> infoMap = new HashMap<Long, Product>();
-        productsFound.stream().forEach(product -> infoMap.put(product.getId(), product));
-        orderOptions.stream().forEach(opt -> opt.fillInfo(infoMap.get(opt.getProductId())));
+        fillInformation(orderOptions, productsFound);
+
 
         return orderOptions;
 
+    }
+
+
+
+
+    private void fillInformation(List<OrderOption> orderOptions, List<Product> productsFound) {
+        Map<Long, Product> infoMap = new HashMap<Long, Product>();
+        productsFound.stream().forEach(product -> infoMap.put(product.getId(), product));
+        orderOptions.stream().forEach(opt -> opt.fillInfo(infoMap.get(opt.getProductId())));
     }
 
 

@@ -57,7 +57,6 @@ public class Product {
         return this.id.toString() + "    " + this.productDesc + "    " + this.price + "    " + this.stockQty;
     }
 
-    
     public void decreaseStock(Long demandQty){
         this.stockQty -= demandQty;
         if(stockQty<0){

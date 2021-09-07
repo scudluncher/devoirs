@@ -18,6 +18,8 @@ public class ProductsListingService {
         this.productsRepo = productsRepo;
     }
 
+    
+
     public List<Product> getProductsListEntity(){
         return productsRepo.findAll();
     }

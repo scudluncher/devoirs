@@ -7,7 +7,7 @@ import org.springframework.shell.standard.ShellMethod;
 import kr.co._29cm.homework.common.service.ConsoleService;
 import kr.co._29cm.homework.order.domain.Order;
 import kr.co._29cm.homework.order.service.OrderService;
-import kr.co._29cm.homework.product.service.ProductsListingService;
+import kr.co._29cm.homework.product.service.ProductsListingServiceImpl;
 
 @ShellComponent
 public class OrderCommands {
@@ -15,11 +15,11 @@ public class OrderCommands {
 
 
 
-    private final ProductsListingService productsListingSvc;
+    private final ProductsListingServiceImpl productsListingSvc;
     private final ConsoleService console;
     private final OrderService orderSvc;
 
-    public OrderCommands(ProductsListingService productsListingSvc,  ConsoleService console, OrderService orderSvc){
+    public OrderCommands(ProductsListingServiceImpl productsListingSvc,  ConsoleService console, OrderService orderSvc){
         this.productsListingSvc = productsListingSvc;
         this.console = console;
         this.orderSvc = orderSvc;
